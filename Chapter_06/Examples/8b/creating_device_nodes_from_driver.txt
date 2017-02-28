@@ -1,0 +1,45 @@
+## Recommended Approach! ##
+1.  Using udev
+ http://www.kernel.org/pub/linux/utils/kernel/hotplug/udev.html
+
+## Alternative Approach! ##
+2. create the nodes in the init modules using the following way.
+	http://mail.nl.linux.org/kernelnewbies/2006-05/msg00345.html
+
+	static struct class_simple *dev_class;
+
+	dev_class = class_simple_create(THIS_MODULE, "dev_name");
+	if(IS_ERR(dev_class))
+		printk("Error creating device class\n");
+
+	for (i=0; i<3; i++)
+	{	
+		class_simple_device_add(dev_class,
+MKDEV(device_major,i), 
+					NULL, "dev_name%d",i);
+	}
+
+You can also remove the created node in the cleanup module by the
+following way.
+
+	for(i=0; i<3; i++)
+	{
+		class_simple_device_remove(MKDEV(device_major,i));
+	}
+	class_simple_destroy(dev_class);
+		
+
+## Alternative Approach! ##
+3. Using underlying syscall for mknod
+		3a. Lines to add node using mknod()
+
+       sys_mknod = sys_call_table[ __NR_mknod];
+       sprintf(device_name, "/dev/%s", CDD2);
+       set_fs( get_ds() );
+       sys_mknod(device_name, S_IFCHR|0666, MKDEV(CDD2MAJOR,1));
+
+		3b. Add to arch/i386/kernel/i386_ksyms.c the following lines
+				then recompile kernel.
+
+			extern void* sys_call_table[];
+			EXPORT_SYMBOL(sys_call_table);
