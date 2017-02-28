@@ -1,0 +1,14 @@
+http://wiki.osdev.org/PS2_Keyboard
+
+ #define SCROLL_LED 1
+ #define NUM_LED 2
+ #define CAPS_LED 4
+ 
+ void kbd_update_leds(uint8_t status){
+ 	uint8_t tmp;
+ 	while((inportb(0x64)&2)!=0){} //loop until zero
+ 	outportb(0x60,0xED);
+ 
+ 	while((inportb(0x64)&2)!=0){} //loop until zero
+ 	outportb(0x60,status);
+ }
