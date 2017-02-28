@@ -1,0 +1,35 @@
+
+Deferred Execution (Delay)
+
+ 1.  Busy Wait
+     1.1     spinning on CPU.
+             -  typically implemented as a "while (i++<  <time> )"  construct.
+             -  or, using ndelay(), udelay() or mdelay().
+
+*2.  sleep(), and 
+*    wakeup()
+     2.1     time-centric.
+             some finite/known "elapsed" interval of time.
+             - typically, jiffies or using HR timers.
+
+
+     2.2     event-centric.
+             e.g. device interrupt.  => block until an external event occurs.
+*            - wait_queues. 
+
+     2.3     using 
+*            - kernel timers (again, jiffies-based)
+*            - tasklets 
+*            - workqueues
+
+*3.   Interrupt Handling.
+*    3.1     top-half (and, setting up the interrupt handler) 
+*    3.2     bottom-half (use either of kernel-timers, tasklets or workqueues).
+
+design considerations of kernel-timers, tasklets and workqueues.
+
+trapping mouse interrupts, and identifying left/right mouse-button click, movement etc.
+  
+
+               
+
