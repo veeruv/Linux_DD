@@ -1,0 +1,17 @@
+Delcom Generation 2 USB HID Linux Sample Code
+
+A simple command line program to show how to communicate to the Delcom USB HID Devices.
+Only works with G2 Delcom USB devices.
+
+Tested on: ubuntu 9.04
+gcc version: 4.3.3
+Requires: Libhid (Found in package lidhid-dev on debian/ubuntu)
+Run as: root (grabs the device from the kernal driver)
+Compile String: gcc -I/usr/include -o control_delcom_gen2 -lhid control_delcom_gen2.c
+
+Example syntax: 
+
+./control_delcom_gen2 --green
+./control_delcom_gen2 --red
+./control_delcom_gen2 --blue
+./control_delcom_gen2 --off
